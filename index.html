@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>I know where you LIVE! WHAHAHAH!</title>
+
+    <style>
+      #map {
+        background-color: lightgray;
+        height: 500px;
+        width: 100%;
+        border-radius: 1%;
+      }
+    </style>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="map">map</div>
+    <p id="location">GPS: Coordinates</p>
+
+    <script defer>
+      document.addEventListener("DOMContentLoaded", () => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const longitude = position.coords.longitude;
+          const latitude = position.coords.latitude;
+
+          const location = document.querySelector("p#location");
+          location.innerHTML = "GPS: " + longitude + ", " + latitude;
+
+          mapboxgl.accessToken =
+            "pk.eyJ1IjoibHRkbiIsImEiOiJjbHJ5eDVkd2cxbHU1MmtwYjhtYWM0dmExIn0._TkZV1TUwq1TFd7VJeiqeQ";
+          const map = new mapboxgl.Map({
+            container: "map", // container ID
+            style: "mapbox://styles/mapbox/streets-v12", // style URL
+            center: [longitude, latitude], // starting position [lng, lat]
+            zoom: 17, // starting zoom
+          });
+
+          // Create a new marker.
+          const marker = new mapboxgl.Marker()
+            .setLngLat([longitude, latitude])
+            .addTo(map);
+          const marker2 = new mapboxgl.Marker()
+            .setLngLat([longitude + 0.0005, latitude])
+            .addTo(map);
+        });
+      });
+    </script>
+  </body>
+</html>
